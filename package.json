@@ -1,0 +1,25 @@
+{
+  "name": "sdk-express-middleware",
+  "version": "1.0.0",
+  "description": "Express.js middleware for getting an authenticated Zesty instance on request handlers",
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.14"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zesty-io/node-sdk-express-middleware.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zesty-io/node-sdk-express-middleware/issues"
+  },
+  "homepage": "https://github.com/zesty-io/node-sdk-express-middleware#readme",
+  "dependencies": {
+    "@zesty-io/sdk": "0.0.3"
+  }
+}
