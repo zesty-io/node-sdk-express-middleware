@@ -50,8 +50,6 @@ module.exports = config => {
       req.app.locals.zesty_token = token;
     }
 
-    console.log("New auth token: ", req.app.locals.zesty_token);
-
     req.app.locals.zesty = new SDK(
       config.instance,
       req.app.locals.zesty_token,
