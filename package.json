@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/zesty-io/node-sdk-express-middleware#readme",
   "dependencies": {
-    "@zesty-io/sdk": "0.0.4"
+    "@zesty-io/sdk": "0.0.5"
   }
 }
