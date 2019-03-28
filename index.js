@@ -36,7 +36,8 @@ module.exports = config => {
     if (!token) {
       try {
         // Auth and store issued token on app
-        const auth = new SDK.Auth({ authURL: config.options.authURL });
+        const authURL = (config.options.authURL) || process.env.ZESTY_AUTH_API || "https://svc.zesty.io/auth";
+        const auth = new SDK.Auth({authURL});
         const loginResponse = await auth.login(config.email, config.password);
         req.app.locals.zesty_token = loginResponse.token;
       } catch (err) {
