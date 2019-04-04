@@ -1,5 +1,11 @@
 > Express.js middleware for getting an authenticated Zesty instance on request handlers
 
+## Install npm package
+```
+npm install @zesty-io/sdk-express-middleware
+```
+
+## Example Usage
 ```JavaScript
 require("dotenv").config();
 
