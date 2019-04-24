@@ -1,6 +1,6 @@
 {
   "name": "@zesty-io/sdk-express-middleware",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Express.js middleware for getting an authenticated Zesty instance on request handlers",
   "main": "index.js",
   "engines": {
