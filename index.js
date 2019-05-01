@@ -21,7 +21,7 @@ module.exports = config => {
           "zesty-express-middleware: Missing required `password` config"
         );
       }
-    } else if (!config.email && !config.password) {
+    } else if (!config.email || !config.password) {
       console.error(
         "zesty-express-middleware: Missing authentication strategy. Either a service `token` or `email` and `password` must be provided."
       );
@@ -32,17 +32,36 @@ module.exports = config => {
     }
 
     const token = config.token || req.app.locals.zesty_token;
+    const auth = new SDK.Auth({
+      authURL:
+        config.options.authURL ||
+        process.env.ZESTY_AUTH_API ||
+        "https://svc.zesty.io/auth"
+    });
 
     if (!token) {
       try {
         // Auth and store issued token on app
-        const authURL =
-          config.options.authURL ||
-          process.env.ZESTY_AUTH_API ||
-          "https://svc.zesty.io/auth";
-        const auth = new SDK.Auth({ authURL });
         const loginResponse = await auth.login(config.email, config.password);
         req.app.locals.zesty_token = loginResponse.token;
+      } catch (err) {
+        console.log("Failed to login with user credentials: ", err);
+        res.status(err.errorCode).send({
+          error: err.errorMessage
+        });
+        return;
+      }
+    } else {
+      try {
+        // Confirm token is still valid
+        const validResponse = await auth.verifyToken(token);
+        if (validResponse.verified) {
+          req.app.locals.zesty_token = token;
+        } else {
+          // Re-login if token was invalid
+          const loginResponse = await auth.login(config.email, config.password);
+          req.app.locals.zesty_token = loginResponse.token;
+        }
       } catch (err) {
         console.log("Failed to auth SDK: ", err);
         res.status(err.errorCode).send({
@@ -50,8 +69,6 @@ module.exports = config => {
         });
         return;
       }
-    } else {
-      req.app.locals.zesty_token = token;
     }
 
     req.app.locals.zesty = new SDK(
